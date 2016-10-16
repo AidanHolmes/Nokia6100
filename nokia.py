@@ -24,9 +24,10 @@ class Nokia6100(object):
         NOKIA_CMD = 0
         NOKIA_DTA = 1
 
-        def __init__(self, reset, cs = 0, isepson = 0, mhz = 6):
+        def __init__(self, reset, bus = 0, cs = 0, isepson = 0, mhz = 6):
                 self._reset_pin = reset 
                 self._chip_select = cs
+                self._bus = bus
                 self._width = 132
                 self._height = 132
                 self._spi = spidev.SpiDev()
@@ -169,7 +170,7 @@ class Nokia6100(object):
         def initialise(self):
                 'Initialise the display and open SPI'
                 
-                self._spi.open(0,0)
+                self._spi.open(self._bus,self._chip_select)
 
                 GPIO.setmode(GPIO.BCM)
                 GPIO.setup(self._reset_pin, GPIO.OUT)
